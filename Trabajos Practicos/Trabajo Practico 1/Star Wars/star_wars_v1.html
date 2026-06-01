@@ -1,0 +1,676 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .sw-wrap {
+    background: #000;
+    color: #e8d89c;
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .stars {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0.2; }
+    100% { opacity: 1; }
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid #3a3010;
+  }
+
+  .opening-line {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    letter-spacing: 6px;
+    color: #7a6c38;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeIn 2s ease;
+  }
+
+  .logo-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    color: #e8d89c;
+    text-transform: uppercase;
+    line-height: 1;
+    text-shadow: 0 0 60px rgba(232,216,156,0.3);
+    animation: logoReveal 1.5s ease forwards;
+  }
+
+  .logo-star { color: #e8d89c; }
+  .logo-wars { color: #fff; text-shadow: 0 0 40px rgba(255,255,255,0.2); }
+
+  @keyframes logoReveal {
+    from { opacity: 0; transform: scale(1.1); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: #5a5030;
+    margin-top: 1rem;
+    text-transform: uppercase;
+  }
+
+  .crawl-btn {
+    margin-top: 2rem;
+    display: inline-block;
+    border: 1px solid #6a5c28;
+    color: #e8d89c;
+    padding: 10px 32px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.3s;
+  }
+
+  .crawl-btn:hover {
+    background: rgba(232,216,156,0.08);
+    border-color: #e8d89c;
+    box-shadow: 0 0 20px rgba(232,216,156,0.15);
+  }
+
+  /* CRAWL OVERLAY */
+  .crawl-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #000;
+    z-index: 100;
+    perspective: 300px;
+    cursor: pointer;
+  }
+
+  .crawl-overlay.active { display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+
+  .crawl-content {
+    width: 60%;
+    max-width: 500px;
+    text-align: center;
+    padding-bottom: 10%;
+    transform-origin: 50% 100%;
+    transform: rotateX(20deg);
+    animation: crawl 60s linear forwards;
+  }
+
+  @keyframes crawl {
+    from { transform: rotateX(20deg) translateY(100%); }
+    to { transform: rotateX(20deg) translateY(-300%); }
+  }
+
+  .crawl-episode {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: #e8d89c;
+    margin-bottom: 1.5rem;
+  }
+
+  .crawl-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: #e8d89c;
+    margin-bottom: 2rem;
+    line-height: 1.3;
+  }
+
+  .crawl-text {
+    font-size: 18px;
+    line-height: 1.9;
+    color: #e8d89c;
+    font-weight: 400;
+  }
+
+  .crawl-hint {
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #3a3010;
+    z-index: 101;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  /* NAV */
+  .side-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    padding: 1rem;
+    border-bottom: 1px solid #1a1508;
+  }
+
+  .nav-item {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #4a4020;
+    padding: 8px 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    border: 1px solid transparent;
+  }
+
+  .nav-item:hover, .nav-item.active {
+    color: #e8d89c;
+    border-color: #3a3010;
+  }
+
+  /* SECTIONS */
+  .section { display: none; padding: 2rem; }
+  .section.active { display: block; }
+
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: #6a5c28;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #1a1508;
+    padding-bottom: 0.75rem;
+  }
+
+  /* FILMS GRID */
+  .films-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1px;
+    border: 1px solid #1a1508;
+  }
+
+  .film-card {
+    background: #050400;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    border: 1px solid #0f0e02;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .film-card:hover { background: #0d0b02; }
+
+  .film-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 0;
+    background: #e8d89c;
+    transition: height 0.3s;
+  }
+
+  .film-card:hover::before { height: 100%; }
+
+  .film-episode {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #3a3010;
+    margin-bottom: 0.5rem;
+  }
+
+  .film-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #e8d89c;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .film-year {
+    font-size: 12px;
+    color: #4a4020;
+    letter-spacing: 1px;
+  }
+
+  .film-director {
+    font-size: 11px;
+    color: #3a3010;
+    margin-top: 0.75rem;
+  }
+
+  /* CHARACTERS */
+  .chars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1px;
+  }
+
+  .char-card {
+    background: #050400;
+    padding: 1.25rem;
+    border: 1px solid #0f0e02;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .char-card:hover { background: #0d0b02; border-color: #2a2208; }
+
+  .char-icon {
+    font-size: 36px;
+    margin-bottom: 0.75rem;
+    display: block;
+    filter: grayscale(0.3);
+  }
+
+  .char-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #e8d89c;
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+  }
+
+  .char-side {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+
+  .side-light { color: #5a8aaa; }
+  .side-dark { color: #aa3a3a; }
+  .side-neutral { color: #5a5030; }
+
+  .char-desc {
+    font-size: 11px;
+    color: #3a3020;
+    margin-top: 0.5rem;
+    line-height: 1.5;
+  }
+
+  /* LORE */
+  .lore-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+  }
+
+  .lore-item {
+    background: #050400;
+    padding: 1.5rem;
+    border: 1px solid #0f0e02;
+  }
+
+  .lore-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 8px;
+    letter-spacing: 4px;
+    color: #3a3010;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .lore-value {
+    font-size: 15px;
+    color: #c8b87c;
+    line-height: 1.6;
+  }
+
+  .force-bar-wrap {
+    margin-top: 0.5rem;
+  }
+
+  .force-label {
+    font-size: 11px;
+    color: #5a5030;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+
+  .force-bar {
+    height: 2px;
+    background: #1a1508;
+    position: relative;
+    margin-bottom: 8px;
+  }
+
+  .force-fill {
+    height: 100%;
+    transition: width 1s ease;
+  }
+
+  .force-light .force-fill { background: linear-gradient(90deg, #3a6a9a, #7ab0d4); }
+  .force-dark .force-fill { background: linear-gradient(90deg, #6a1a1a, #c04040); }
+
+  /* QUOTE */
+  .quote-section {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid #1a1508;
+    margin-top: 1px;
+  }
+
+  .quote-marks {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 60px;
+    color: #1a1508;
+    line-height: 0.5;
+    margin-bottom: 1rem;
+  }
+
+  .quote-text {
+    font-size: 20px;
+    color: #c8b87c;
+    font-style: italic;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto 1rem;
+    font-weight: 300;
+  }
+
+  .quote-attr {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #3a3010;
+  }
+
+  /* FOOTER */
+  .sw-footer {
+    text-align: center;
+    padding: 1.5rem;
+    border-top: 1px solid #1a1508;
+  }
+
+  .sw-footer p {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #2a2008;
+  }
+</style>
+
+<div class="sw-wrap">
+  <div class="stars" id="starfield"></div>
+
+  <div class="content">
+    <div class="hero">
+      <p class="opening-line">En una galaxia muy, muy lejana&hellip;</p>
+      <div class="logo-text">
+        <span class="logo-star">STAR&nbsp;</span><span class="logo-wars">WARS</span>
+      </div>
+      <p class="hero-subtitle">La Saga Épica del Universo</p>
+      <button class="crawl-btn" onclick="startCrawl()">▶ &nbsp; Iniciar Texto de Apertura</button>
+    </div>
+
+    <nav class="side-nav">
+      <div class="nav-item active" onclick="showSection('films', this)">Películas</div>
+      <div class="nav-item" onclick="showSection('chars', this)">Personajes</div>
+      <div class="nav-item" onclick="showSection('lore', this)">La Fuerza</div>
+    </nav>
+
+    <div id="films" class="section active">
+      <p class="section-title">Trilogías &amp; Sagas</p>
+      <div class="films-grid">
+        <div class="film-card">
+          <p class="film-episode">Episodio IV</p>
+          <p class="film-title">Una Nueva Esperanza</p>
+          <p class="film-year">1977</p>
+          <p class="film-director">Dir. George Lucas</p>
+        </div>
+        <div class="film-card">
+          <p class="film-episode">Episodio V</p>
+          <p class="film-title">El Imperio Contraataca</p>
+          <p class="film-year">1980</p>
+          <p class="film-director">Dir. Irvin Kershner</p>
+        </div>
+        <div class="film-card">
+          <p class="film-episode">Episodio VI</p>
+          <p class="film-title">El Retorno del Jedi</p>
+          <p class="film-year">1983</p>
+          <p class="film-director">Dir. Richard Marquand</p>
+        </div>
+        <div class="film-card">
+          <p class="film-episode">Episodio I</p>
+          <p class="film-title">La Amenaza Fantasma</p>
+          <p class="film-year">1999</p>
+          <p class="film-director">Dir. George Lucas</p>
+        </div>
+        <div class="film-card">
+          <p class="film-episode">Episodio II</p>
+          <p class="film-title">El Ataque de los Clones</p>
+          <p class="film-year">2002</p>
+          <p class="film-director">Dir. George Lucas</p>
+        </div>
+        <div class="film-card">
+          <p class="film-episode">Episodio III</p>
+          <p class="film-title">La Venganza de los Sith</p>
+          <p class="film-year">2005</p>
+          <p class="film-director">Dir. George Lucas</p>
+        </div>
+        <div class="film-card">
+          <p class="film-episode">Episodio VII</p>
+          <p class="film-title">El Despertar de la Fuerza</p>
+          <p class="film-year">2015</p>
+          <p class="film-director">Dir. J.J. Abrams</p>
+        </div>
+        <div class="film-card">
+          <p class="film-episode">Episodio VIII</p>
+          <p class="film-title">Los Últimos Jedi</p>
+          <p class="film-year">2017</p>
+          <p class="film-director">Dir. Rian Johnson</p>
+        </div>
+        <div class="film-card">
+          <p class="film-episode">Episodio IX</p>
+          <p class="film-title">El Ascenso de Skywalker</p>
+          <p class="film-year">2019</p>
+          <p class="film-director">Dir. J.J. Abrams</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="chars" class="section">
+      <p class="section-title">Personajes Icónicos</p>
+      <div class="chars-grid">
+        <div class="char-card">
+          <span class="char-icon">⚔️</span>
+          <p class="char-name">Luke Skywalker</p>
+          <p class="char-side side-light">Lado de la Luz</p>
+          <p class="char-desc">Jedi que destruyó la Estrella de la Muerte y redimió a su padre.</p>
+        </div>
+        <div class="char-card">
+          <span class="char-icon">🌑</span>
+          <p class="char-name">Darth Vader</p>
+          <p class="char-side side-dark">Lado Oscuro</p>
+          <p class="char-desc">Señor Sith. Padre de Luke. Anakin Skywalker redimido.</p>
+        </div>
+        <div class="char-card">
+          <span class="char-icon">🏹</span>
+          <p class="char-name">Princesa Leia</p>
+          <p class="char-side side-light">Alianza Rebelde</p>
+          <p class="char-desc">Senadora, líder rebelde y guerrera de la Fuerza.</p>
+        </div>
+        <div class="char-card">
+          <span class="char-icon">🎲</span>
+          <p class="char-name">Han Solo</p>
+          <p class="char-side side-neutral">Smuggler</p>
+          <p class="char-desc">Capitán del Halcón Milenario. Siempre dispara primero.</p>
+        </div>
+        <div class="char-card">
+          <span class="char-icon">🌿</span>
+          <p class="char-name">Yoda</p>
+          <p class="char-side side-light">Maestro Jedi</p>
+          <p class="char-desc">Maestro Jedi por 800 años. Hablar al revés, su costumbre es.</p>
+        </div>
+        <div class="char-card">
+          <span class="char-icon">🔴</span>
+          <p class="char-name">Darth Maul</p>
+          <p class="char-side side-dark">Aprendiz Sith</p>
+          <p class="char-desc">Zabrak tatuado. Sable doble. Intimidación pura.</p>
+        </div>
+        <div class="char-card">
+          <span class="char-icon">🌺</span>
+          <p class="char-name">Rey</p>
+          <p class="char-side side-light">Jedi</p>
+          <p class="char-desc">La última Jedi de la nueva generación. Linaje misterioso.</p>
+        </div>
+        <div class="char-card">
+          <span class="char-icon">🎭</span>
+          <p class="char-name">Obi-Wan Kenobi</p>
+          <p class="char-side side-light">Maestro Jedi</p>
+          <p class="char-desc">Maestro de Anakin. Guardián de la Fuerza por décadas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="lore" class="section">
+      <p class="section-title">La Fuerza &amp; El Universo</p>
+      <div class="lore-grid">
+        <div class="lore-item">
+          <p class="lore-label">La Fuerza</p>
+          <p class="lore-value">Una energía mística que permea todo el universo, vinculando a todos los seres vivientes.</p>
+        </div>
+        <div class="lore-item">
+          <p class="lore-label">La Orden Jedi</p>
+          <p class="lore-value">Guardianes de la paz y la justicia en la República Galáctica. Defensores del Lado de la Luz.</p>
+        </div>
+        <div class="lore-item">
+          <p class="lore-label">Los Sith</p>
+          <p class="lore-value">Seguidores del Lado Oscuro. Gobernados por la Regla de Dos: un Maestro y un Aprendiz.</p>
+        </div>
+        <div class="lore-item">
+          <p class="lore-label">El Imperio Galáctico</p>
+          <p class="lore-value">Régimen totalitario surgido de la antigua República. Gobernado por el Emperador Palpatine.</p>
+        </div>
+      </div>
+      <div class="lore-item" style="margin-top: 1px;">
+        <p class="lore-label">Balance de la Fuerza</p>
+        <div class="force-bar-wrap">
+          <p class="force-label">Lado de la Luz</p>
+          <div class="force-bar force-light"><div class="force-fill" id="light-bar" style="width:0%"></div></div>
+          <p class="force-label">Lado Oscuro</p>
+          <div class="force-bar force-dark"><div class="force-fill" id="dark-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-section">
+      <div class="quote-marks">"</div>
+      <p class="quote-text" id="quote-text">Que la Fuerza te acompañe.</p>
+      <p class="quote-attr" id="quote-attr">— Obi-Wan Kenobi</p>
+      <button class="crawl-btn" style="margin-top:1.5rem; font-size:9px;" onclick="nextQuote()">Siguiente Cita</button>
+    </div>
+
+    <div class="sw-footer">
+      <p>Star Wars &copy; Lucasfilm Ltd. &mdash; Una galaxia muy, muy lejana</p>
+    </div>
+  </div>
+
+  <div class="crawl-overlay" id="crawl" onclick="stopCrawl()">
+    <div class="crawl-content">
+      <p class="crawl-episode">Episodio IV</p>
+      <p class="crawl-title">UNA NUEVA<br>ESPERANZA</p>
+      <p class="crawl-text">
+        Es un período de guerra civil. Naves espaciales rebeldes, atacando desde una base oculta, han ganado su primera victoria contra el malvado Imperio Galáctico.<br><br>
+        Durante la batalla, espías rebeldes lograron robar los planos secretos del arma definitiva del Imperio, la ESTRELLA DE LA MUERTE, una estación espacial blindada con suficiente poder para destruir un planeta entero.<br><br>
+        Perseguida por los siniestros agentes del Imperio, la Princesa Leia se lanza a casa a bordo de su nave estelar, custodiando los planos robados que pueden salvar a su pueblo y restaurar la libertad a la galaxia...
+      </p>
+    </div>
+    <p class="crawl-hint">Haz clic para cerrar</p>
+  </div>
+</div>
+
+<script>
+  const starfield = document.getElementById('starfield');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2 + 0.5;
+    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*3}s`;
+    starfield.appendChild(s);
+  }
+
+  function showSection(id, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+    if (id === 'lore') {
+      setTimeout(() => {
+        document.getElementById('light-bar').style.width = '72%';
+        document.getElementById('dark-bar').style.width = '45%';
+      }, 200);
+    }
+  }
+
+  function startCrawl() {
+    document.getElementById('crawl').classList.add('active');
+  }
+
+  function stopCrawl() {
+    document.getElementById('crawl').classList.remove('active');
+  }
+
+  const quotes = [
+    { text: "Que la Fuerza te acompañe.", attr: "— Obi-Wan Kenobi" },
+    { text: "No. Yo soy tu padre.", attr: "— Darth Vader" },
+    { text: "Hacer o no hacer. No existe el intentar.", attr: "— Yoda" },
+    { text: "Nunca le digas a las probabilidades.", attr: "— Han Solo" },
+    { text: "El miedo lleva a la ira, la ira lleva al odio, el odio lleva al sufrimiento.", attr: "— Yoda" },
+    { text: "La Fuerza será contigo, siempre.", attr: "— Obi-Wan Kenobi" }
+  ];
+  let qIdx = 0;
+
+  function nextQuote() {
+    qIdx = (qIdx + 1) % quotes.length;
+    const qt = document.getElementById('quote-text');
+    const qa = document.getElementById('quote-attr');
+    qt.style.opacity = '0';
+    qa.style.opacity = '0';
+    setTimeout(() => {
+      qt.textContent = quotes[qIdx].text;
+      qa.textContent = quotes[qIdx].attr;
+      qt.style.transition = 'opacity 0.5s';
+      qa.style.transition = 'opacity 0.5s';
+      qt.style.opacity = '1';
+      qa.style.opacity = '1';
+    }, 300);
+  }
+</script>

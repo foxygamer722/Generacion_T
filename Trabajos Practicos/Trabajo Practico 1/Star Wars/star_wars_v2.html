@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Star Wars Wiki — Holocron Database</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #FFE81A;
+    --gold-dim: #CCC015;
+    --gold-dark: #8A7E00;
+    --red: #D62828;
+    --blue: #1E90FF;
+    --blue-dim: #0060CC;
+    --cyan: #00D4FF;
+    --cyan-dim: #0099CC;
+    --bg-deep: #020408;
+    --bg-dark: #060C14;
+    --bg-card: #0A1420;
+    --bg-card2: #0D1B2A;
+    --bg-panel: #080F1A;
+    --border: rgba(255,232,26,0.18);
+    --border-bright: rgba(255,232,26,0.45);
+    --text: #C8D8E8;
+    --text-dim: #6A7E92;
+    --text-bright: #E8F0F8;
+    --saber-blue: #4FC3F7;
+    --saber-red: #FF5252;
+    --saber-green: #69F0AE;
+    --saber-purple: #CE93D8;
+    --font-title: 'Orbitron', sans-serif;
+    --font-body: 'Rajdhani', sans-serif;
+    --font-mono: 'Share Tech Mono', monospace;
+    --glow: 0 0 20px rgba(255,232,26,0.3), 0 0 40px rgba(255,232,26,0.1);
+    --glow-blue: 0 0 20px rgba(0,212,255,0.3);
+    --glow-red: 0 0 20px rgba(214,40,40,0.4);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* STARFIELD BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 8%, rgba(255,255,255,0.9) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 45%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 85%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 75%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.9) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 5% 50%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 45% 90%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 78% 88%, rgba(255,232,26,0.4) 0%, transparent 100%),
+      radial-gradient(2px 2px at 20% 25%, rgba(200,220,255,0.4) 0%, transparent 100%),
+      radial-gradient(2px 2px at 65% 55%, rgba(255,200,200,0.3) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* SCANLINE OVERLAY */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(255,232,26,0.04) 0%, transparent 100%);
+  }
+
+  .header-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+
+  header h1 {
+    font-family: var(--font-title);
+    font-size: clamp(28px, 6vw, 64px);
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: var(--glow);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-sub {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: var(--cyan-dim);
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .crawl-line {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1.5rem auto;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 16px;
+    background: rgba(2,4,8,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-btn {
+    font-family: var(--font-title);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px solid rgba(255,232,26,0.2);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.25s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .nav-btn:hover, .nav-btn.active {
+    background: rgba(255,232,26,0.12);
+    border-color: var(--gold);
+    color: var(--gold);
+    text-shadow: 0 0 10px rgba(255,232,26,0.6);
+    box-shadow: 0 0 15px rgba(255,232,26,0.15);
+  }
+
+  /* ── SEARCH ── */
+  .search-bar {
+    position: relative;
+    z-index: 10;
+    max-width: 640px;
+    margin: 2rem auto 0;
+    padding: 0 1.5rem;
+  }
+
+  .search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-wrap::before {
+    content: '⟨ HOLOCRON SEARCH ⟩';
+    position: absolute;
+    top: -18px;
+    left: 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--gold-dark);
+  }
+
+  .search-input {
+    width: 100%;
+    background: rgba(10,20,32,0.8);
+    border: 1px solid var(--border-bright);
+    border-radius: 2px;
+    padding: 12px 48px 12px 20px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--cyan);
+    outline: none;
+    transition: all 0.3s;
+  }
+
+  .search-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(255,232,26,0.15), inset 0 0 10px rgba(255,232,26,0.05);
+    background: rgba(10,20,32,0.95);
+  }
+
+  .search-input::placeholder { color: var(--text-dim); opacity: 0.5; }
+
+  .search-icon {
+    position: absolute;
+    right: 14px;
+    font-size: 18px;
+    color: var(--gold);
+    cursor: pointer;
+    opacity: 0.7;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    position: relative;
+    z-index: 5;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-family: var(--font-title);
+    font-size: clamp(14px, 3vw, 22px);
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .section-count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    padding: 3px 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 2px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-bright), transparent);
+  }
+
+  /* ── GRID ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,232,26,0.03) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 20px rgba(255,232,26,0.08);
+  }
+
+  .card:hover::before, .card:hover::after { opacity: 1; }
+
+  .card-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+    background: var(--bg-panel);
+    filter: saturate(0.8) contrast(1.1);
+  }
+
+  .card-img-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--bg-panel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-img-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(45deg, transparent 45%, rgba(255,232,26,0.03) 50%, transparent 55%),
+      linear-gradient(-45deg, transparent 45%, rgba(0,212,255,0.03) 50%, transparent 55%);
+    background-size: 20px 20px;
+  }
+
+  .card-icon {
+    font-size: 48px;
+    opacity: 0.15;
+    filter: grayscale(1);
+  }
+
+  .card-body {
+    padding: 16px;
+  }
+
+  .card-category {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--cyan-dim);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+
+  .card-name {
+    font-family: var(--font-title);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    padding: 3px 8px;
+    border: 1px solid rgba(255,232,26,0.2);
+    color: var(--gold-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .tag.blue { border-color: rgba(0,212,255,0.25); color: var(--cyan-dim); }
+  .tag.red { border-color: rgba(214,40,40,0.3); color: #FF6B6B; }
+  .tag.green { border-color: rgba(105,240,174,0.25); color: #69F0AE; }
+  .tag.purple { border-color: rgba(206,147,216,0.25); color: var(--saber-purple); }
+
+  /* ── CORNER DECORATIONS ── */
+  .card-corner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-color: var(--gold);
+    border-style: solid;
+    opacity: 0.4;
+    transition: opacity 0.3s;
+  }
+  .card:hover .card-corner { opacity: 0.8; }
+  .card-corner.tl { top: 4px; left: 4px; border-width: 1px 0 0 1px; }
+  .card-corner.br { bottom: 4px; right: 4px; border-width: 0 1px 1px 0; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--bg-card2);
+    border: 1px solid var(--border-bright);
+    max-width: 800px;
+    width: 100%;
+    margin: auto;
+    position: relative;
+    box-shadow: 0 0 60px rgba(0,0,0,0.8), 0 0 30px rgba(255,232,26,0.1);
+    transform: translateY(20px);
+    transition: transform 0.3s;
+  }
+
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-header-img {
+    width: 100%;
+    max-height: 280px;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.7) contrast(1.15);
+  }
+
+  .modal-header-placeholder {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, var(--bg-panel) 0%, rgba(10,30,50,0.8) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .modal-header-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(255,232,26,0.02) 10px,
+      rgba(255,232,26,0.02) 20px
+    );
+  }
+
+  .modal-header-icon { font-size: 80px; opacity: 0.1; }
+
+  .modal-title-bar {
+    padding: 20px 24px 12px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .modal-category {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+
+  .modal-title {
+    font-family: var(--font-title);
+    font-size: clamp(20px, 4vw, 32px);
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: var(--glow);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text-dim);
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-family: var(--font-title);
+  }
+
+  .modal-close:hover {
+    border-color: var(--red);
+    color: var(--red);
+    background: rgba(214,40,40,0.1);
+  }
+
+  .modal-body {
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 600px) {
+    .modal-body { grid-template-columns: 1fr; }
+  }
+
+  .modal-section {
+    grid-column: 1 / -1;
+  }
+
+  .modal-section-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(0,212,255,0.15);
+  }
+
+  .modal-desc {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .stat-item {
+    background: var(--bg-panel);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 10px 14px;
+    position: relative;
+  }
+
+  .stat-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--gold);
+    opacity: 0.4;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .stat-value {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-bright);
+  }
+
+  .related-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .related-chip {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+
+  .related-chip:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(255,232,26,0.05);
+  }
+
+  /* ── LOADER ── */
+  .loader-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 2rem;
+    gap: 20px;
+  }
+
+  .loader-ring {
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgba(255,232,26,0.1);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loader-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  /* ── ERROR ── */
+  .error-box {
+    background: rgba(214,40,40,0.08);
+    border: 1px solid rgba(214,40,40,0.3);
+    padding: 2rem;
+    text-align: center;
+    max-width: 500px;
+    margin: 3rem auto;
+  }
+
+  .error-icon { font-size: 40px; margin-bottom: 12px; }
+
+  .error-title {
+    font-family: var(--font-title);
+    font-size: 16px;
+    color: var(--saber-red);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .error-msg {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .retry-btn {
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: transparent;
+    border: 1px solid var(--red);
+    color: var(--saber-red);
+    font-family: var(--font-title);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .retry-btn:hover {
+    background: rgba(214,40,40,0.15);
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+
+  .empty-icon { font-size: 52px; opacity: 0.2; margin-bottom: 16px; }
+
+  .empty-text {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+  }
+
+  /* ── PAGINATION ── */
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .page-btn {
+    font-family: var(--font-title);
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .page-btn:hover:not(:disabled) {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(255,232,26,0.05);
+  }
+
+  .page-btn:disabled { opacity: 0.3; cursor: default; }
+  .page-btn.current { border-color: var(--gold); color: var(--gold); background: rgba(255,232,26,0.1); }
+
+  .page-info {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    padding: 0 8px;
+  }
+
+  /* ── CATEGORIES ROW ── */
+  .categories-intro {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin-bottom: 3rem;
+  }
+
+  .cat-tile {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 20px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cat-tile::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+
+  .cat-tile:hover { border-color: var(--border-bright); transform: translateY(-2px); }
+  .cat-tile:hover::before { transform: scaleX(1); }
+
+  .cat-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+
+  .cat-name {
+    font-family: var(--font-title);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .cat-count {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-dim);
+  }
+
+  /* ── HOME HERO ── */
+  .hero-lore {
+    max-width: 680px;
+    margin: 0 auto 3rem;
+    text-align: center;
+    position: relative;
+    padding: 2rem;
+  }
+
+  .hero-lore::before, .hero-lore::after {
+    content: '◈';
+    color: var(--gold);
+    opacity: 0.3;
+    font-size: 12px;
+  }
+
+  .hero-lore p {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--text-dim);
+    line-height: 1.8;
+    font-style: italic;
+  }
+
+  /* ── BREADCRUMB ── */
+  .breadcrumb {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+  }
+
+  .breadcrumb span { color: var(--gold-dim); opacity: 0.5; margin: 0 6px; }
+
+  /* ── FILM CARD ── */
+  .film-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 20px;
+  }
+
+  .film-card:hover {
+    border-color: var(--border-bright);
+    box-shadow: 0 4px 30px rgba(255,232,26,0.08);
+  }
+
+  .film-episode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-panel);
+    border: 1px solid rgba(255,232,26,0.1);
+    padding: 8px;
+  }
+
+  .film-ep-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .film-ep-num {
+    font-family: var(--font-title);
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .film-title {
+    font-family: var(--font-title);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .film-director {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .film-crawl {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-style: italic;
+  }
+
+  /* ── TOOLTIP ── */
+  .tooltip {
+    position: relative;
+  }
+
+  /* ── ANIMATE IN ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-in {
+    animation: fadeUp 0.4s ease forwards;
+  }
+
+  .card:nth-child(1) { animation-delay: 0.02s; }
+  .card:nth-child(2) { animation-delay: 0.04s; }
+  .card:nth-child(3) { animation-delay: 0.06s; }
+  .card:nth-child(4) { animation-delay: 0.08s; }
+  .card:nth-child(5) { animation-delay: 0.10s; }
+  .card:nth-child(6) { animation-delay: 0.12s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    header { padding: 2rem 1rem 1.5rem; }
+    header h1 { letter-spacing: 4px; }
+    .film-card { grid-template-columns: 60px 1fr; gap: 12px; }
+    .modal-body { padding: 16px; }
+    nav { gap: 3px; }
+    .nav-btn { font-size: 8px; padding: 6px 10px; letter-spacing: 1px; }
+  }
+
+  /* ── LORE SECTION (custom) ── */
+  .lore-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+
+  .lore-title {
+    font-family: var(--font-title);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .lore-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .lore-text em { color: var(--cyan); font-style: normal; }
+
+  /* ── BACK BTN ── */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-title);
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 1.5rem;
+  }
+
+  .back-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── SABER DIVIDER ── */
+  .saber-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 2rem 0 1.5rem;
+  }
+
+  .saber-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-bright), transparent);
+  }
+
+  .saber-gem {
+    width: 8px;
+    height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    opacity: 0.6;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-deep); }
+  ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    opacity: 0.5;
+  }
+
+  /* ── HIGHLIGHT BAR ── */
+  .highlight-bar {
+    background: rgba(255,232,26,0.06);
+    border: 1px solid rgba(255,232,26,0.12);
+    border-left: 3px solid var(--gold);
+    padding: 14px 18px;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gold-dim);
+    letter-spacing: 1px;
+    line-height: 1.6;
+  }
+
+  /* ── IMAGE in modal ── */
+  .modal-img-hero {
+    position: relative;
+  }
+
+  .modal-img-hero img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    object-position: top center;
+    filter: saturate(0.7) contrast(1.1) brightness(0.9);
+  }
+
+  .modal-img-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: linear-gradient(transparent, var(--bg-card2));
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">◈ GALACTIC ARCHIVES — RESTRICTED ACCESS ◈</div>
+  <h1>Star Wars Holocron</h1>
+  <div class="crawl-line"></div>
+  <div class="header-sub">∴ DATABASE VERSION 7.7 — EXPANDED UNIVERSE EDITION ∴</div>
+</header>
+
+<nav id="main-nav"></nav>
+
+<div class="search-bar" id="search-area" style="display:none;">
+  <div class="search-wrap">
+    <input class="search-input" id="search-input" type="text" placeholder="Buscar en los Archivos Jedi..." />
+    <span class="search-icon" onclick="doSearch()">⌕</span>
+  </div>
+</div>
+
+<main id="app"></main>
+
+<footer>
+  ⟨ STAR WARS HOLOCRON WIKI ∙ DATOS: SWAPI.DEV + STARWARS.COM ∙ EXPANDED UNIVERSE DATA ∙ MAY THE FORCE BE WITH YOU ⟩
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOnBg(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script>
+const API = 'https://swapi.dev/api';
+const CACHE = {};
+
+const CATEGORIES = [
+  { key: 'home',         label: 'Inicio',       icon: '⟁',  navOnly: true },
+  { key: 'films',        label: 'Películas',     icon: '🎬',  ep: true },
+  { key: 'people',       label: 'Personajes',    icon: '🧑‍🚀', search: true },
+  { key: 'planets',      label: 'Planetas',      icon: '🪐',  search: true },
+  { key: 'starships',    label: 'Naves',         icon: '🚀',  search: true },
+  { key: 'vehicles',     label: 'Vehículos',     icon: '🛸',  search: true },
+  { key: 'species',      label: 'Especies',      icon: '👁️',  search: true },
+  { key: 'lore',         label: 'Lore / Legends',icon: '📜',  static: true },
+  { key: 'events',       label: 'Eventos',       icon: '⚔️',  static: true },
+  { key: 'organizations',label: 'Organizaciones',icon: '⚜️',  static: true },
+];
+
+let currentSection = 'home';
+let currentPage = 1;
+let searchQuery = '';
+let currentSectionData = null;
+
+// ─── STATIC DATA ────────────────────────────────────────────────────────────
+const LORE_DATA = [
+  {
+    title: "El Lado Oscuro de la Fuerza",
+    icon: "⚡",
+    color: "red",
+    desc: `La Fuerza es una energía mística que impregna toda la galaxia, vinculando a todos los seres vivos. Los Sith y seguidores del lado oscuro canalizan emociones como la ira, el miedo y el odio para amplificar su poder. El lado oscuro ofrece ganancias rápidas de fuerza a expensas de la corrupción del alma. Darth Bane instituyó la Regla de Dos: solo dos Sith a la vez, maestro y aprendiz, para preservar el poder concentrado.`,
+    tags: ["Sith","Oscuridad","Bane","Palpatine"],
+    image: "https://starwars.com/static/1/content/dam/star-wars/img/news/darth_vader_ep3.jpg"
+  },
+  {
+    title: "El Lado Luminoso — El Camino Jedi",
+    icon: "✦",
+    color: "blue",
+    desc: `Los Jedi son guardianes de la paz que sirven a la República Galáctica, conectados al lado luminoso de la Fuerza mediante la serenidad, el desapego y la compasión. El Código Jedi enseña "No hay emoción, hay paz". El Templo Jedi en Coruscant fue el epicentro del conocimiento durante miles de años hasta la Orden 66, cuando el Emperador Palpatine ordenó la extinción casi total de la Orden.`,
+    tags: ["Jedi","Templo","Yoda","Kenobi"],
+    image: null
+  },
+  {
+    title: "Star Wars Legends (Universo Expandido)",
+    icon: "📚",
+    color: "gold",
+    desc: `Antes de 2014, todo el contenido de novelas, cómics y videojuegos era considerado canon. Disney relanzó el universo como "Legends" — historias no-canon pero ricas en lore. Incluye el Yuuzhan Vong, amenaza extragaláctica de Eje; la Nueva República y el Imperio Remanente; Mara Jade, esposa de Luke Skywalker; el Escuadrón Rogue y muchas más sagas épicas que expanden miles de años de historia.`,
+    tags: ["Legends","Canon","EU","Vong"],
+    image: null
+  },
+  {
+    title: "Los Midichlorians y la Fuerza",
+    icon: "🧬",
+    color: "green",
+    desc: `Los midichlorians son organismos microscópicos simbióticos que residen en las células de todos los seres vivos y se comunican con la Fuerza. Cuanto mayor es la concentración de midichlorians en un ser, mayor es su capacidad potencial para usar la Fuerza. Anakin Skywalker tenía la concentración más alta jamás registrada — superior incluso a Yoda —, lo cual se consideró una señal de la profecía del Elegido.`,
+    tags: ["Biología","Fuerza","Anakin","Profecía"],
+    image: null
+  },
+  {
+    title: "El Holocrón Jedi",
+    icon: "💎",
+    color: "cyan",
+    desc: `Los Holocrones son dispositivos cristalinos que almacenan el conocimiento y la sabiduría de maestros Jedi o Sith fallecidos, proyectando un Gatekeeper — una representación hológrafica interactiva del creador. Solo usuarios de la Fuerza pueden abrirlos. Los Holocrones Sith tienen forma de pirámide, mientras que los Jedi suelen ser dodecaédricos. Fueron creados hace más de 20,000 años durante el Amanecer de los Jedi.`,
+    tags: ["Holocrón","Conocimiento","Archivos","Saber"],
+    image: null
+  },
+  {
+    title: "La Fuerza Gris — Los Vergentes",
+    icon: "◈",
+    color: "purple",
+    desc: `Algunos seres son "vergentes" en la Fuerza — el punto de unión entre el lado luminoso y oscuro. La Fuerza Gris, practicada por los Jedi Grises y la Orden de los Bardottas, busca el equilibrio entre ambos lados sin adherirse a ninguno. Ezra Bridger y Rey Palpatine son ejemplos de usuarios que han navegado este camino intermedio, encontrando fortaleza en la dualidad en lugar de la división.`,
+    tags: ["Gris","Equilibrio","Convergencia","Rey"],
+    image: null
+  }
+];
+
+const EVENTS_DATA = [
+  { title: "La Gran Guerra Sith (5.000 ABY)", icon: "⚔️", era: "Antigua República", desc: `La confrontación más devastadora entre Jedi y Sith en la historia antigua. Exar Kun y Ulic Qel-Droma lideraron ejércitos Sith contra la República Galáctica. La guerra dejó mundos enteros arrasados, incluyendo la destrucción del planeta Ossus. Culminó con la redención de Ulic y el aprisionamiento del espíritu de Exar Kun en las ruinas de Yavin IV.`, tags: ["Sith","Exar Kun","República","Antigua"] },
+  { title: "La Caída de la República (19 ABY)", icon: "🏛️", era: "Ascenso del Imperio", desc: `La ejecución de la Orden 66 — la directiva secreta implantada en los clones — señaló el fin de la Orden Jedi. Darth Vader asaltó el Templo Jedi en Coruscant. Simultáneamente, el Senado Galáctico aplaudió el discurso de Palpatine declarando el Primer Imperio Galáctico. Solo un puñado de Jedi sobrevivió: Yoda, Obi-Wan Kenobi, y un grupo disperso que vivió en las sombras.`, tags: ["Orden 66","Imperio","Palpatine","Jedi"] },
+  { title: "La Batalla de Yavin (0 ABY)", icon: "💥", era: "Rebelión", desc: `Luke Skywalker destruyó la primera Estrella de la Muerte usando la Fuerza para guiar sus torpedos de protones por un estrecho conducto de ventilación de dos metros. Este evento redefinió la guerra civil galáctica, demostrando que el Imperio era vulnerable. La Alianza Rebelde ganó su primera victoria decisiva y Luke emergió como héroe destinado a restaurar los Jedi.`, tags: ["Yavin","Estrella Muerte","Luke","X-Wing"] },
+  { title: "La Batalla de Endor (4 DBY)", icon: "🌲", era: "Caída del Imperio", desc: `La batalla que determinó el destino de la galaxia. Los Ewoks del bosque de Endor ayudaron a destruir el escudo generador de la segunda Estrella de la Muerte. Mientras, en la Sala del Trono, Luke Skywalker enfrentó al Emperador y a su padre Darth Vader. Anakin Skywalker redimió su alma arrojando al Emperador al reactor, cumpliendo la profecía del Elegido. El Imperio se fragmentó.`, tags: ["Endor","Vader","Ewoks","Redención"] },
+  { title: "El Surgimiento de las Primeras Órdenes (34 DBY)", icon: "⚡", era: "Nueva Era", desc: `De las cenizas del Imperio surgió la Primera Orden, liderada por el misterioso Líder Supremo Snoke y su joven aprendiz Kylo Ren — Ben Solo, hijo de Han Solo y Leia Organa. La resistencia, liderada por la General Leia, combatió esta nueva amenaza mientras Rey descubría su conexión con la Fuerza y los orígenes secretos de su linaje como nieta de Palpatine.`, tags: ["Primera Orden","Rey","Kylo Ren","Snoke"] },
+  { title: "La Gran Purga Jedi (20-14 ABY)", icon: "🔴", era: "Era Oscura", desc: `El período conocido como la "Era Oscura de la Fuerza" en el que Darth Vader y el Inquisitorio — antiguos Jedi corrompidos — cazaron sistemáticamente a los sobrevivientes de la Orden 66. Obi-Wan Kenobi se ocultó en Tatooine. Cal Kestis, joven padawan, sobrevivió trabajando de incógnito. Kanan Jarrus entrenó en secreto a Ezra Bridger, perpetuando los enseñanzas Jedi en las sombras.`, tags: ["Inquisidores","Purga","Oscuridad","Sobrevivientes"] }
+];
+
+const ORGS_DATA = [
+  { title: "La República Galáctica", icon: "🏛️", alignment: "Luz", era: "25.000 — 19 ABY", desc: `La democracia más longeva de la galaxia, gobernada por el Senado Galáctico con sede en Coruscant. Miles de sistemas estrella enviaban representantes. Protegida durante milenios por la Orden Jedi, fue lentamente corrompida por la ambición política, los cárteles de separatistas, y finalmente por el propio Palpatine quien la manipuló para transformarla en el Primer Imperio Galáctico.`, tags: ["Senado","Jedi","Democracia","Coruscant"] },
+  { title: "El Primer Imperio Galáctico", icon: "⚫", alignment: "Oscuro", era: "19 ABY — 4 DBY", desc: `El régimen autoritario establecido por el Emperador Palpatine tras la Orden 66. Dominó la galaxia por casi dos décadas con la Muerte Estelar como instrumento de terror. Sus Stormtroopers, el ejército imperial, y la mano de hierro de Darth Vader mantenían el orden. La Alianza Rebelde luchó incansablemente hasta su victoria en Endor.`, tags: ["Palpatine","Vader","Stormtroopers","Tiranía"] },
+  { title: "La Alianza Rebelde", icon: "⭐", alignment: "Luz", era: "2 ABY — 4 DBY", desc: `Fundada por ex-senadores y guerreros de la resistencia incluyendo a Mon Mothma, Bail Organa y la Princesa Leia. La Alianza adoptó el símbolo del Pájaro de Fuego de Phoenix Squadron. Con recursos limitados pero determinación ilimitada, derrotaron dos Estrellas de la Muerte y pusieron fin al Imperio en la Batalla de Endor. Se transformó en la Nueva República.`, tags: ["Leia","Rebeldes","Mon Mothma","Libertad"] },
+  { title: "Los Mandalorianos", icon: "🪖", alignment: "Neutral", era: "Toda la historia galáctica", desc: `Cultura guerrera procedente del planeta Mandalore. Su credo "Esto es el Camino" define un código de honor y honor familiar. El Darksaber es el símbolo del liderazgo mandaloriano. Din Djarin (Mando) y Bo-Katan Kryze protagonizaron la resurrección de este pueblo devastado por la Gran Purga Imperial. Los Mandalorianos son reconocidos por su icónica armadura de beskar.`, tags: ["Beskar","Mando","Bo-Katan","Darksaber"] },
+  { title: "La Orden de los Inquisidores", icon: "🔴", alignment: "Oscuro", era: "19 ABY — 14 ABY", desc: `Fuerza de élite de cazadores de Jedi al servicio de Darth Vader y el Emperador. Compuesta por ex-Jedi corrompidos a través del dolor y la promesa de poder. El Gran Inquisidor lideró la organización. Cada miembro recibía un sable láser de doble hoja giratoria capaz de volar como un helicóptero. Fueron eventualmente eliminados a medida que los sobrevivientes Jedi encontraron su poder.`, tags: ["Caza","Oscuro","Vader","Sables"] },
+  { title: "Los Sith — La Regla de Dos", icon: "💀", alignment: "Oscuro", era: "1.000 ABY — 35 DBY", desc: `Instaurada por Darth Bane para erradicar las guerras fratricidas entre Sith. Solo dos existirían: un maestro para poseer el poder, un aprendiz para codiciar el poder. Esta regla permitió a los Sith sobrevivir en secreto durante mil años, infiltrándose en la República hasta que Palpatine y Vader completaron el plan milenario. Palpatine buscó trascender incluso esta regla con su transferencia de esencia.`, tags: ["Bane","Regla","Maestro","Aprendiz"] }
+];
+
+const EXTRA_INFO = {
+  people: {
+    imageBase: 'https://starwars.com',
+    getImage: (name) => {
+      const map = {
+        'Luke Skywalker': 'https://lumiere-a.akamaihd.net/v1/images/luke-skywalker_6bda9114.jpeg?region=0%2C0%2C1280%2C720',
+        'Darth Vader': 'https://lumiere-a.akamaihd.net/v1/images/darth-vader_abc348c8.jpeg?region=0%2C0%2C1280%2C720',
+        'Obi-Wan Kenobi': 'https://lumiere-a.akamaihd.net/v1/images/obi-wan-kenobi_0612bb40.jpeg?region=0%2C0%2C1280%2C720',
+        'Yoda': 'https://lumiere-a.akamaihd.net/v1/images/yoda_27a5c36c.jpeg?region=0%2C0%2C1280%2C720',
+        'Leia Organa': 'https://lumiere-a.akamaihd.net/v1/images/princess-leia-organa-hoth-episode-v_ab5ae06c.jpeg',
+        'Han Solo': 'https://lumiere-a.akamaihd.net/v1/images/han-solo_7dbc96f3.jpeg',
+        'Chewbacca': 'https://lumiere-a.akamaihd.net/v1/images/chewbacca_9376c7c7.jpeg',
+        'R2-D2': 'https://lumiere-a.akamaihd.net/v1/images/r2-d2_9becdb5f.jpeg',
+        'C-3PO': 'https://lumiere-a.akamaihd.net/v1/images/c-3po_6227bc8c.jpeg',
+        'Palpatine': 'https://lumiere-a.akamaihd.net/v1/images/emperor-palpatine_cc94ef9e.jpeg',
+      };
+      return map[name] || null;
+    }
+  }
+};
+
+// ─── SWAPI FETCH ─────────────────────────────────────────────────────────────
+async function apiFetch(url) {
+  if (CACHE[url]) return CACHE[url];
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`HTTP ${r.status}: ${r.statusText}`);
+  const data = await r.json();
+  CACHE[url] = data;
+  return data;
+}
+
+async function fetchSection(section, page = 1, search = '') {
+  let url = `${API}/${section}/?page=${page}`;
+  if (search) url += `&search=${encodeURIComponent(search)}`;
+  return apiFetch(url);
+}
+
+// ─── NAV ──────────────────────────────────────────────────────────────────────
+function buildNav() {
+  const nav = document.getElementById('main-nav');
+  nav.innerHTML = CATEGORIES.map(c =>
+    `<button class="nav-btn${c.key === currentSection ? ' active' : ''}" onclick="navigate('${c.key}')">${c.icon} ${c.label}</button>`
+  ).join('');
+}
+
+function navigate(section) {
+  currentSection = section;
+  currentPage = 1;
+  searchQuery = '';
+  document.getElementById('search-input').value = '';
+  buildNav();
+  const search = document.getElementById('search-area');
+  const cat = CATEGORIES.find(c => c.key === section);
+  search.style.display = cat && cat.search ? 'block' : 'none';
+  renderSection(section);
+}
+
+// ─── RENDER ROUTER ────────────────────────────────────────────────────────────
+async function renderSection(section) {
+  closeModal();
+  if (section === 'home') { renderHome(); return; }
+  if (section === 'lore') { renderLore(); return; }
+  if (section === 'events') { renderEvents(); return; }
+  if (section === 'organizations') { renderOrgs(); return; }
+  if (section === 'films') { await renderFilms(); return; }
+  await renderAPISection(section);
+}
+
+// ─── HOME ─────────────────────────────────────────────────────────────────────
+function renderHome() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="hero-lore">
+      <p>◈ Hace mucho tiempo, en una galaxia muy, muy lejana... Esta base de datos contiene conocimientos de toda la Fuerza: personajes legendarios, mundos remotos, naves poderosas, especies antiguas, y los eventos que forjaron el destino de la galaxia. ◈</p>
+    </div>
+    <div class="section-header">
+      <div class="section-title">Archivos del Holocrón</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="categories-intro">
+      ${CATEGORIES.filter(c=>!c.navOnly).map(c=>`
+        <div class="cat-tile" onclick="navigate('${c.key}')">
+          <span class="cat-icon">${c.icon}</span>
+          <span class="cat-name">${c.label}</span>
+          <span class="cat-count">${c.static ? 'Datos estáticos' : c.key === 'films' ? '6 films + series' : 'Acceso API'}</span>
+        </div>
+      `).join('')}
+    </div>
+    <div class="highlight-bar">
+      ⟨ FUENTE DE DATOS: SWAPI.DEV (The Star Wars API) + Lore Expandido + Legends Canon ⟩<br>
+      Navega entre personajes, planetas, naves, especies, vehículos, películas, eventos históricos y organizaciones galácticas.
+    </div>
+    <div class="saber-divider"><div class="saber-line"></div><div class="saber-gem"></div><div class="saber-line" style="background:linear-gradient(90deg,transparent,rgba(255,232,26,0.4))"></div></div>
+    <div class="section-header"><div class="section-title">Trilogías & Series</div><div class="section-line"></div></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:2rem;">
+      ${[
+        {title:"Trilogía Original",years:"1977–1983",desc:"La historia de Luke Skywalker, la Alianza Rebelde y la caída del Imperio. Los episodios IV, V y VI que definieron la cultura pop para siempre.",ep:"IV · V · VI"},
+        {title:"Trilogía Precuela",years:"1999–2005",desc:"El surgimiento y la caída de Anakin Skywalker. La corrupción de la República, la traición Sith y el nacimiento de Darth Vader.",ep:"I · II · III"},
+        {title:"Trilogía de la Secuela",years:"2015–2019",desc:"El despertar de la Fuerza décadas después de Endor. Rey, Finn, Kylo Ren y el regreso de Palpatine dan forma a una nueva era.",ep:"VII · VIII · IX"},
+        {title:"Series de Disney+",years:"2019–presente",desc:"The Mandalorian, Andor, Obi-Wan Kenobi, The Book of Boba Fett, Ahsoka, The Acolyte — expandiendo el universo con nuevas historias.",ep:"Series · Spin-offs"},
+      ].map(t=>`
+        <div class="lore-block" style="cursor:pointer" onclick="navigate('films')">
+          <div class="lore-title">${t.title} <span style="font-size:10px;color:var(--text-dim);font-family:var(--font-mono)">${t.years}</span></div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--cyan);letter-spacing:2px;margin-bottom:8px">${t.ep}</div>
+          <div class="lore-text">${t.desc}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// ─── FILMS ────────────────────────────────────────────────────────────────────
+async function renderFilms() {
+  showLoader('Accediendo a los archivos fílmicos...');
+  try {
+    const data = await apiFetch(`${API}/films/`);
+    const films = data.results.sort((a,b) => a.episode_id - b.episode_id);
+    const app = document.getElementById('app');
+    app.innerHTML = `
+      <div class="section-header">
+        <div class="section-title">Películas & Cronología</div>
+        <div class="section-count">${films.length} registros</div>
+        <div class="section-line"></div>
+      </div>
+      <div style="display:grid;gap:12px">
+        ${films.map(f => `
+          <div class="film-card animate-in" onclick="showFilmDetail(${JSON.stringify(f).replace(/"/g,'&quot;')})">
+            <div class="card-corner tl"></div>
+            <div class="card-corner br"></div>
+            <div class="film-episode">
+              <div class="film-ep-label">EP</div>
+              <div class="film-ep-num">${toRoman(f.episode_id)}</div>
+            </div>
+            <div>
+              <div class="film-director">
+                <span style="color:var(--gold-dim)">Dir.</span> ${f.director} &nbsp;·&nbsp;
+                <span style="color:var(--gold-dim)">Prod.</span> ${f.producer.split(',')[0]} &nbsp;·&nbsp;
+                <span style="color:var(--cyan)">${f.release_date}</span>
+              </div>
+              <div class="film-title">${f.title}</div>
+              <div class="film-crawl">${f.opening_crawl}</div>
+              <div class="card-meta" style="margin-top:10px">
+                <span class="tag">${f.characters.length} personajes</span>
+                <span class="tag blue">${f.planets.length} planetas</span>
+                <span class="tag green">${f.starships.length} naves</span>
+                <span class="tag purple">${f.species.length} especies</span>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      ${renderSeriesInfo()}
+    `;
+  } catch(e) { showError(e, 'films'); }
+}
+
+function renderSeriesInfo() {
+  const series = [
+    {title:"The Mandalorian", seasons:"3 Temporadas", years:"2019–2023", saber:"blue", desc:"Din Djarin, un cazarrecompensas mandaloriano, protege a Grogu (Baby Yoda) mientras descubre el verdadero significado del Camino."},
+    {title:"Andor", seasons:"2 Temporadas", years:"2022–2024", saber:"red", desc:"La historia de espionaje más adulta y política. Cassian Andor y la formación de la Alianza Rebelde antes de Rogue One."},
+    {title:"Obi-Wan Kenobi", seasons:"Miniserie", years:"2022", saber:"blue", desc:"Diez años después de la Orden 66, Kenobi emerge de su exilio para enfrentarse de nuevo a Darth Vader."},
+    {title:"Ahsoka", seasons:"2 Temporadas", years:"2023–presente", saber:"white", desc:"Ahsoka Tano busca a Grand Admiral Thrawn y a Ezra Bridger mientras una nueva amenaza amenaza la galaxia."},
+    {title:"The Book of Boba Fett", seasons:"1 Temporada", years:"2021–2022", saber:"green", desc:"El legendario cazarrecompensas Boba Fett asume el control del bajo mundo criminal de Tatooine."},
+    {title:"The Acolyte", seasons:"1 Temporada", years:"2024", saber:"purple", desc:"Ambientada 100 años antes de la precuela, explora el misterio oscuro que subyace tras un lado oscuro oculto."},
+  ];
+  return `
+    <div class="saber-divider" style="margin-top:2rem"><div class="saber-line"></div><div class="saber-gem"></div><div class="saber-line" style="background:linear-gradient(90deg,transparent,rgba(255,232,26,0.4))"></div></div>
+    <div class="section-header">
+      <div class="section-title">Series Disney+</div>
+      <div class="section-line"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px">
+      ${series.map(s=>`
+        <div class="lore-block" style="border-left-color:var(--saber-${s.saber})">
+          <div class="lore-title">${s.title}</div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--cyan-dim);letter-spacing:2px;margin-bottom:8px">${s.seasons} · ${s.years}</div>
+          <div class="lore-text">${s.desc}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function toRoman(n) {
+  const r = ['I','II','III','IV','V','VI','VII','VIII','IX'];
+  return r[n-1] || n;
+}
+
+// ─── API SECTION (people, planets, ships, vehicles, species) ─────────────────
+async function renderAPISection(section) {
+  showLoader(`Consultando archivos: ${section.toUpperCase()}...`);
+  try {
+    const data = await fetchSection(section, currentPage, searchQuery);
+    currentSectionData = data;
+    const cat = CATEGORIES.find(c => c.key === section);
+    const totalPages = Math.ceil(data.count / 10);
+
+    const cards = data.results.map(item => buildCard(item, section)).join('');
+
+    const app = document.getElementById('app');
+    app.innerHTML = `
+      <div class="breadcrumb">HOLOCRÓN <span>▸</span> ${cat.label.toUpperCase()} <span>▸</span> PÁGINA ${currentPage}/${totalPages}</div>
+      <div class="section-header">
+        <div class="section-title">${cat.icon} ${cat.label}</div>
+        <div class="section-count">${data.count} registros</div>
+        <div class="section-line"></div>
+      </div>
+      ${searchQuery ? `<div class="highlight-bar">⟨ BÚSQUEDA: "${searchQuery}" — ${data.count} resultados encontrados ⟩</div>` : ''}
+      ${data.results.length === 0 ? `
+        <div class="empty-state">
+          <div class="empty-icon">🔭</div>
+          <div class="empty-text">NO SE ENCONTRARON REGISTROS EN LOS ARCHIVOS</div>
+        </div>
+      ` : `
+        <div class="cards-grid">${cards}</div>
+        ${renderPagination(currentPage, totalPages)}
+      `}
+    `;
+  } catch(e) { showError(e, section); }
+}
+
+function buildCard(item, section) {
+  const info = getCardInfo(item, section);
+  const imgHtml = info.image
+    ? `<img class="card-img" src="${info.image}" alt="${info.name}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=\\'card-img-placeholder\\'><span class=\\'card-icon\\'>${info.icon}</span></div>'">`
+    : `<div class="card-img-placeholder"><span class="card-icon">${info.icon}</span></div>`;
+
+  return `
+    <div class="card animate-in" onclick="showDetail(${JSON.stringify(item).replace(/"/g,'&quot;')}, '${section}')">
+      <div class="card-corner tl"></div>
+      <div class="card-corner br"></div>
+      ${imgHtml}
+      <div class="card-body">
+        <div class="card-category">${section.toUpperCase()}</div>
+        <div class="card-name">${info.name}</div>
+        <div class="card-desc">${info.desc}</div>
+        <div class="card-meta">${info.tags.map(t=>`<span class="tag ${t.cls}">${t.text}</span>`).join('')}</div>
+      </div>
+    </div>
+  `;
+}
+
+function getCardInfo(item, section) {
+  const icons = { people:'🧑‍🚀', planets:'🪐', starships:'🚀', vehicles:'🛸', species:'👁️' };
+  const icon = icons[section] || '📄';
+  let name, desc, tags = [], image = null;
+
+  if (section === 'people') {
+    name = item.name;
+    image = EXTRA_INFO.people.getImage(name);
+    desc = `${item.gender !== 'n/a' ? item.gender + ' · ' : ''}${item.birth_year !== 'unknown' ? 'Año ' + item.birth_year : ''} ${item.homeworld ? '· Planeta natal disponible' : ''}`;
+    if (item.height !== 'unknown') tags.push({text: `${item.height}cm`, cls:''});
+    if (item.mass !== 'unknown') tags.push({text: `${item.mass}kg`, cls:'blue'});
+    if (item.eye_color !== 'unknown') tags.push({text: item.eye_color, cls:'green'});
+    if (item.hair_color !== 'unknown' && item.hair_color !== 'n/a') tags.push({text: item.hair_color, cls:''});
+  } else if (section === 'planets') {
+    name = item.name;
+    desc = `${item.climate !== 'unknown' ? 'Clima: ' + item.climate : 'Clima desconocido'} · ${item.terrain !== 'unknown' ? item.terrain : 'Terreno desconocido'}`;
+    if (item.population !== 'unknown') tags.push({text: `Pop: ${parseInt(item.population).toLocaleString()}`, cls:''});
+    if (item.diameter !== 'unknown') tags.push({text: `Ø ${item.diameter}km`, cls:'blue'});
+    if (item.gravity !== 'unknown') tags.push({text: `G: ${item.gravity}`, cls:'green'});
+  } else if (section === 'starships') {
+    name = item.name;
+    desc = `${item.starship_class} · ${item.manufacturer.split(',')[0]}`;
+    if (item.crew !== 'unknown') tags.push({text: `Tripulación: ${item.crew}`, cls:''});
+    if (item.hyperdrive_rating !== 'unknown') tags.push({text: `Hiperpropulsión: ${item.hyperdrive_rating}`, cls:'blue'});
+    if (item.length !== 'unknown') tags.push({text: `${item.length}m`, cls:'green'});
+    if (item.cost_in_credits !== 'unknown') tags.push({text: `${(parseInt(item.cost_in_credits)/1000000).toFixed(1)}M cr`, cls:'purple'});
+  } else if (section === 'vehicles') {
+    name = item.name;
+    desc = `${item.vehicle_class} · ${item.manufacturer.split(',')[0]}`;
+    if (item.crew !== 'unknown') tags.push({text: `Tripulación: ${item.crew}`, cls:''});
+    if (item.max_atmosphering_speed !== 'unknown') tags.push({text: `${item.max_atmosphering_speed}km/h`, cls:'blue'});
+    if (item.length !== 'unknown') tags.push({text: `${item.length}m`, cls:'green'});
+  } else if (section === 'species') {
+    name = item.name;
+    desc = `${item.classification} · ${item.designation} · Origen: ${item.homeworld ? 'planeta conocido' : 'desconocido'}`;
+    if (item.language !== 'unknown') tags.push({text: item.language, cls:''});
+    if (item.average_lifespan !== 'unknown') tags.push({text: `Vida: ${item.average_lifespan} años`, cls:'blue'});
+    if (item.average_height !== 'unknown') tags.push({text: `Alt: ${item.average_height}cm`, cls:'green'});
+    if (item.skin_colors !== 'unknown' && item.skin_colors !== 'n/a') tags.push({text: item.skin_colors.split(',')[0], cls:'purple'});
+  }
+
+  return { name, desc: desc || 'Sin descripción adicional', tags: tags.slice(0,4), icon, image };
+}
+
+// ─── PAGINATION ───────────────────────────────────────────────────────────────
+function renderPagination(page, total) {
+  if (total <= 1) return '';
+  let html = '<div class="pagination">';
+  html += `<button class="page-btn" onclick="goPage(${page-1})" ${page<=1?'disabled':''}>◀ ANTERIOR</button>`;
+  for (let i = Math.max(1,page-2); i <= Math.min(total,page+2); i++) {
+    html += `<button class="page-btn${i===page?' current':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  html += `<button class="page-btn" onclick="goPage(${page+1})" ${page>=total?'disabled':''}>SIGUIENTE ▶</button>`;
+  html += `<span class="page-info">${page} / ${total}</span></div>`;
+  return html;
+}
+
+function goPage(p) {
+  currentPage = p;
+  renderAPISection(currentSection);
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ─── SEARCH ───────────────────────────────────────────────────────────────────
+function doSearch() {
+  const val = document.getElementById('search-input').value.trim();
+  searchQuery = val;
+  currentPage = 1;
+  renderAPISection(currentSection);
+}
+
+document.getElementById('search-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch();
+});
+
+// ─── DETAIL MODAL ─────────────────────────────────────────────────────────────
+async function showDetail(item, section) {
+  const overlay = document.getElementById('modal-overlay');
+  const content = document.getElementById('modal-content');
+
+  content.innerHTML = `<div class="loader-wrap"><div class="loader-ring"></div><div class="loader-text">Cargando registro...</div></div>`;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  const info = getCardInfo(item, section);
+  const details = await buildDetailHTML(item, section, info);
+  content.innerHTML = details;
+}
+
+async function buildDetailHTML(item, section, info) {
+  const imgHTML = info.image
+    ? `<div class="modal-img-hero"><img src="${info.image}" alt="${info.name}" onerror="this.parentNode.innerHTML=''"><div class="modal-img-overlay"></div></div>`
+    : `<div class="modal-header-placeholder"><span class="modal-header-icon">${info.icon}</span></div>`;
+
+  let statsHTML = '', relatedHTML = '';
+
+  if (section === 'people') {
+    statsHTML = buildStats([
+      ['Nombre',item.name],['Género',item.gender],['Nacimiento',item.birth_year],
+      ['Altura',item.height+'cm'],['Masa',item.mass+'kg'],['Color ojos',item.eye_color],
+      ['Color cabello',item.hair_color],['Color piel',item.skin_color],
+    ]);
+    if (item.films?.length) relatedHTML = buildRelated('Películas', item.films.length, 'films', '🎬');
+    if (item.starships?.length) relatedHTML += buildRelated('Naves', item.starships.length, 'starships', '🚀');
+  } else if (section === 'planets') {
+    statsHTML = buildStats([
+      ['Nombre',item.name],['Clima',item.climate],['Terreno',item.terrain],
+      ['Diámetro',item.diameter+'km'],['Gravedad',item.gravity],['Período orbital',item.orbital_period+' días'],
+      ['Período rotacional',item.rotation_period+' hrs'],['Agua superficial',item.surface_water+'%'],
+      ['Población',parseInt(item.population)>0?parseInt(item.population).toLocaleString():item.population],
+    ]);
+  } else if (section === 'starships') {
+    statsHTML = buildStats([
+      ['Nombre',item.name],['Modelo',item.model],['Clase',item.starship_class],
+      ['Fabricante',item.manufacturer],['Costo',item.cost_in_credits+' créditos'],
+      ['Longitud',item.length+'m'],['Velocidad atm.',item.max_atmosphering_speed],
+      ['Tripulación',item.crew],['Pasajeros',item.passengers],
+      ['Capacidad carga',item.cargo_capacity],['Consumibles',item.consumables],
+      ['Hiperpropulsión',item.hyperdrive_rating],['Clase MGLT',item.MGLT],
+    ]);
+  } else if (section === 'vehicles') {
+    statsHTML = buildStats([
+      ['Nombre',item.name],['Modelo',item.model],['Clase',item.vehicle_class],
+      ['Fabricante',item.manufacturer],['Costo',item.cost_in_credits+' créditos'],
+      ['Longitud',item.length+'m'],['Velocidad máx.',item.max_atmosphering_speed+'km/h'],
+      ['Tripulación',item.crew],['Pasajeros',item.passengers],
+      ['Capacidad carga',item.cargo_capacity],['Consumibles',item.consumables],
+    ]);
+  } else if (section === 'species') {
+    statsHTML = buildStats([
+      ['Nombre',item.name],['Clasificación',item.classification],['Designación',item.designation],
+      ['Altura promedio',item.average_height+'cm'],['Expectativa de vida',item.average_lifespan+' años'],
+      ['Colores de piel',item.skin_colors],['Colores de ojos',item.eye_colors],
+      ['Colores de cabello',item.hair_colors],['Idioma',item.language],
+    ]);
+  }
+
+  const loreDesc = getLoreDesc(item, section);
+
+  return `
+    ${imgHTML}
+    <div class="modal-title-bar">
+      <div class="modal-category">◈ ${section.toUpperCase()} — ARCHIVO GALÁCTICO</div>
+      <div class="modal-title">${item.name || item.title}</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      ${loreDesc ? `
+        <div class="modal-section">
+          <div class="modal-section-title">⟨ Descripción ⟩</div>
+          <div class="modal-desc">${loreDesc}</div>
+        </div>
+      ` : ''}
+      <div class="modal-section">
+        <div class="modal-section-title">⟨ Especificaciones Técnicas ⟩</div>
+        <div class="stat-grid">${statsHTML}</div>
+      </div>
+      ${relatedHTML ? `
+        <div class="modal-section">
+          <div class="modal-section-title">⟨ Vínculos ⟩</div>
+          <div class="related-list">${relatedHTML}</div>
+        </div>
+      ` : ''}
+      <div class="modal-section" style="border-top:1px solid var(--border);padding-top:16px;margin-top:4px">
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px">
+          FUENTE: SWAPI.DEV · ACTUALIZADO: ${new Date().toLocaleDateString('es-AR')} · ID: ${item.url?.split('/').filter(Boolean).pop() || 'N/A'}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function buildStats(pairs) {
+  return pairs.filter(([,v]) => v && v !== 'unknown' && v !== 'n/a' && v !== 'undefinedcm')
+    .map(([l,v]) => `
+      <div class="stat-item">
+        <div class="stat-label">${l}</div>
+        <div class="stat-value">${v}</div>
+      </div>
+    `).join('');
+}
+
+function buildRelated(label, count, section, icon) {
+  return `<span class="related-chip" onclick="navigate('${section}')">${icon} ${label} (${count})</span>`;
+}
+
+function getLoreDesc(item, section) {
+  const descs = {
+    people: {
+      'Luke Skywalker': 'Jedi de la Nueva Esperanza, el hijo del Elegido. Nacido en secreto para protegerlo del Imperio, fue criado por sus tíos en Tatooine hasta que su destino lo llamó. Destruyó la Estrella de la Muerte, enfrentó a Darth Vader y restauró la Orden Jedi.',
+      'Darth Vader': 'Otrora Anakin Skywalker, el más poderoso de los Jedi, corrompido por el Emperador Palpatine. Guardián del Imperio durante dos décadas, redimido finalmente por el amor a su hijo Luke. El Elegido que trajo balance a la Fuerza.',
+      'Obi-Wan Kenobi': 'Maestro Jedi y mentor de Anakin Skywalker. Sobreviviente de la Orden 66, vivió en el exilio en Tatooine protegiendo al joven Luke. Su sacrificio final en la Estrella de la Muerte lo convirtió en un ser más poderoso en la Fuerza.',
+      'Yoda': 'El gran maestro Jedi de 900 años, líder del Consejo Jedi por siglos. Maestro de Dooku, Luke Skywalker y mentor de incontables Jedi. Se retiró a Dagobah tras la Orden 66, convirtiéndose en el último guardián de la sabiduría Jedi.',
+      'Palpatine': 'El Señor Oscuro de los Sith, Darth Sidious. Manipuló la República durante décadas, orquestando las Guerras Clon para consolidar su poder. Fundó el Imperio Galáctico y fue casi destruido por Vader, pero resurgió décadas después.',
+      'Leia Organa': 'Princesa de Alderaan, senadora, General de la Resistencia y hermana gemela de Luke. Líder natural con fuerza en la Fuerza heredada de su madre Padmé. Símbolo de la esperanza galáctica durante décadas de lucha.',
+      'Han Solo': 'Contrabandista del Halcón Milenario que se convirtió en héroe de la Alianza Rebelde. Su cinismo inicial cedió ante un corazón noble. Completó el salto Kessel en menos de 12 parsecs y fue congelado en carbonita por Jabba el Hutt.',
+      'Chewbacca': 'Guerrero wookiee de Kashyyyk, copiloto del Halcón Milenario y leal compañero de Han Solo. Su deuda de vida (life debt) con Solo los unió para siempre. Uno de los héroes más fiables de la galaxia.',
+    }
+  };
+  if (section === 'people' && descs.people[item.name]) return descs.people[item.name];
+  if (section === 'planets') {
+    const pDescs = {
+      Tatooine: 'Planeta desierto de doble sol, hogar de Anakin Skywalker y lugar de exilio de Obi-Wan. Dominado por Jabba el Hutt y los Tuskens, es el epicentro secreto de múltiples destinos galácticos.',
+      Coruscant: 'La ciudad-planeta capital de la República Galáctica y luego del Imperio. Un mundo enteramente urbanizado, sede del Senado y del Templo Jedi. Centro del poder político de la galaxia.',
+      Alderaan: 'Pacífico mundo de montañas verdes y cultura refinada. Hogar de la Casa Organa y la Princesa Leia. Destruido por la Estrella de la Muerte como demostración de poder, su tragedia galvanizó a la Rebelión.',
+      Naboo: 'Pintoresco mundo de prados y ciudades lacustres, hogar de la Reina Amidala. Los Gungan habitan las profundidades acuáticas del planeta. Lugar de nacimiento del Senador Palpatine.',
+      Dagobah: 'Pantanoso y húmedo mundo de junglas densas, hogar del exilio de Yoda. Fuertemente impregnado de la Fuerza, sus nébulas naturales ocultaron a Yoda de la percepción del Emperador durante dos décadas.',
+      Hoth: 'Planeta helado donde la Alianza estableció la Base Eco. Escena de la feroz Batalla de Hoth donde el Imperio casi destruyó a los Rebeldes. Hogar de los temibles Wampas y los Tauntauns.',
+      Endor: 'Luna boscosa donde los Ewoks ayudaron a destruir el generador de escudo de la segunda Estrella de la Muerte. La batalla decisiva que significó la caída del Emperador y la redención de Darth Vader.',
+      Kamino: 'Mundo oceánico de lluvias eternas donde fue creado en secreto el ejército clon de la República. Los kaminoanos son maestros de la clonación, los seres más altos de la galaxia.',
+    };
+    return pDescs[item.name] || null;
+  }
+  return null;
+}
+
+// ─── FILM DETAIL ──────────────────────────────────────────────────────────────
+function showFilmDetail(film) {
+  const overlay = document.getElementById('modal-overlay');
+  const content = document.getElementById('modal-content');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  content.innerHTML = `
+    <div class="modal-header-placeholder" style="height:120px;background:linear-gradient(135deg,#0A1420,#060C14)">
+      <span class="modal-header-icon" style="font-size:60px;opacity:0.1">🎬</span>
+    </div>
+    <div class="modal-title-bar">
+      <div class="modal-category">◈ EPISODIO ${toRoman(film.episode_id)} — ${film.release_date}</div>
+      <div class="modal-title">${film.title}</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">⟨ Texto de Apertura ⟩</div>
+        <div class="modal-desc" style="font-style:italic;color:var(--gold-dim);line-height:1.8">${film.opening_crawl.replace(/\n/g,'<br>')}</div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">⟨ Especificaciones ⟩</div>
+        <div class="stat-grid">
+          ${buildStats([
+            ['Director',film.director],['Productor(es)',film.producer],
+            ['Estreno',film.release_date],['Episodio',toRoman(film.episode_id)],
+            ['Personajes',film.characters.length],['Planetas',film.planets.length],
+            ['Naves estelares',film.starships.length],['Vehículos',film.vehicles.length],
+            ['Especies',film.species.length],
+          ])}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── LORE ─────────────────────────────────────────────────────────────────────
+function renderLore() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="section-header">
+      <div class="section-title">📜 Lore & Legends</div>
+      <div class="section-count">${LORE_DATA.length} registros</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="highlight-bar">
+      ⟨ ARCHIVOS DE LORE EXPANDIDO: Includes Canon + Legends (EU) content ⟩
+      La tradición profunda del universo Star Wars: la Fuerza, la historia oculta y los misterios del Universo Expandido.
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px">
+      ${LORE_DATA.map(l => `
+        <div class="card animate-in" onclick="showLoreDetail(${JSON.stringify(l).replace(/"/g,'&quot;')})">
+          <div class="card-corner tl"></div>
+          <div class="card-corner br"></div>
+          <div class="card-img-placeholder" style="aspect-ratio:16/7">
+            <span class="card-icon">${l.icon}</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category">LORE EXPANDIDO</div>
+            <div class="card-name">${l.title}</div>
+            <div class="card-desc">${l.desc}</div>
+            <div class="card-meta">${l.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function showLoreDetail(lore) {
+  const overlay = document.getElementById('modal-overlay');
+  const content = document.getElementById('modal-content');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  content.innerHTML = `
+    <div class="modal-header-placeholder"><span class="modal-header-icon" style="font-size:60px;opacity:0.2">${lore.icon}</span></div>
+    <div class="modal-title-bar">
+      <div class="modal-category">◈ LORE EXPANDIDO — ARCHIVOS JEDI</div>
+      <div class="modal-title">${lore.title}</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">⟨ Descripción Completa ⟩</div>
+        <div class="modal-desc" style="font-size:15px;line-height:1.8">${lore.desc}</div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">⟨ Etiquetas ⟩</div>
+        <div class="related-list">${lore.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── EVENTS ───────────────────────────────────────────────────────────────────
+function renderEvents() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="section-header">
+      <div class="section-title">⚔️ Eventos Históricos</div>
+      <div class="section-count">${EVENTS_DATA.length} registros</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="highlight-bar">⟨ CRONOLOGÍA GALÁCTICA: ABY = Antes de la Batalla de Yavin · DBY = Después de la Batalla de Yavin ⟩</div>
+    <div style="display:grid;gap:14px">
+      ${EVENTS_DATA.map((ev,i) => `
+        <div class="film-card animate-in" onclick="showEventDetail(${JSON.stringify(ev).replace(/"/g,'&quot;')})">
+          <div class="card-corner tl"></div>
+          <div class="card-corner br"></div>
+          <div class="film-episode">
+            <div class="film-ep-label">ERA</div>
+            <div class="film-ep-num" style="font-size:22px">${ev.icon}</div>
+          </div>
+          <div>
+            <div class="film-director" style="color:var(--cyan-dim)">${ev.era}</div>
+            <div class="film-title">${ev.title}</div>
+            <div class="film-crawl">${ev.desc}</div>
+            <div class="card-meta" style="margin-top:10px">${ev.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function showEventDetail(ev) {
+  const overlay = document.getElementById('modal-overlay');
+  const content = document.getElementById('modal-content');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  content.innerHTML = `
+    <div class="modal-header-placeholder"><span class="modal-header-icon" style="font-size:70px;opacity:0.15">${ev.icon}</span></div>
+    <div class="modal-title-bar">
+      <div class="modal-category">◈ EVENTO HISTÓRICO — ${ev.era.toUpperCase()}</div>
+      <div class="modal-title">${ev.title}</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">⟨ Descripción Histórica ⟩</div>
+        <div class="modal-desc" style="font-size:15px;line-height:1.8">${ev.desc}</div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">⟨ Entidades Involucradas ⟩</div>
+        <div class="related-list">${ev.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── ORGANIZATIONS ────────────────────────────────────────────────────────────
+function renderOrgs() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="section-header">
+      <div class="section-title">⚜️ Organizaciones</div>
+      <div class="section-count">${ORGS_DATA.length} registros</div>
+      <div class="section-line"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px">
+      ${ORGS_DATA.map(org => `
+        <div class="card animate-in" onclick="showOrgDetail(${JSON.stringify(org).replace(/"/g,'&quot;')})">
+          <div class="card-corner tl"></div>
+          <div class="card-corner br"></div>
+          <div class="card-img-placeholder" style="aspect-ratio:16/7">
+            <span class="card-icon">${org.icon}</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category">ORGANIZACIÓN — ${org.alignment.toUpperCase()}</div>
+            <div class="card-name">${org.title}</div>
+            <div class="card-desc">${org.desc}</div>
+            <div class="card-meta">
+              <span class="tag ${org.alignment==='Oscuro'?'red':org.alignment==='Luz'?'blue':'green'}">${org.alignment}</span>
+              <span class="tag">${org.era}</span>
+              ${org.tags.slice(0,2).map(t=>`<span class="tag purple">${t}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function showOrgDetail(org) {
+  const overlay = document.getElementById('modal-overlay');
+  const content = document.getElementById('modal-content');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  content.innerHTML = `
+    <div class="modal-header-placeholder"><span class="modal-header-icon" style="font-size:70px;opacity:0.15">${org.icon}</span></div>
+    <div class="modal-title-bar">
+      <div class="modal-category">◈ ORGANIZACIÓN — ALINEACIÓN: ${org.alignment.toUpperCase()}</div>
+      <div class="modal-title">${org.title}</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">⟨ Historia y Descripción ⟩</div>
+        <div class="modal-desc" style="font-size:15px;line-height:1.8">${org.desc}</div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">⟨ Especificaciones ⟩</div>
+        <div class="stat-grid">
+          ${buildStats([['Nombre',org.title],['Alineación',org.alignment],['Era activa',org.era]])}
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">⟨ Entidades Clave ⟩</div>
+        <div class="related-list">${org.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── MODAL HELPERS ────────────────────────────────────────────────────────────
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOnBg(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ─── LOADER ───────────────────────────────────────────────────────────────────
+function showLoader(msg) {
+  document.getElementById('app').innerHTML = `
+    <div class="loader-wrap">
+      <div class="loader-ring"></div>
+      <div class="loader-text">${msg || 'Accediendo a los archivos...'}</div>
+    </div>
+  `;
+}
+
+// ─── ERROR ────────────────────────────────────────────────────────────────────
+function showError(err, section) {
+  document.getElementById('app').innerHTML = `
+    <div class="error-box">
+      <div class="error-icon">⚠</div>
+      <div class="error-title">Error de Conexión con los Archivos</div>
+      <div class="error-msg">${err.message || 'No se pudo conectar con los servidores de SWAPI'}</div>
+      <button class="retry-btn" onclick="renderSection('${section}')">↺ REINTENTAR</button>
+    </div>
+  `;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+buildNav();
+renderHome();
+</script>
+</body>
+</html>
