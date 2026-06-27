@@ -26,9 +26,9 @@ El prompt original hizo una pagina de Star Wars simple con un diseño generico, 
 
 ### Código generado
 
-- Codigo hecho con el prompt original -> [Ver] ()
+- Codigo hecho con el prompt original -> [Ver](https://github.com/foxygamer722/Generacion_T/tree/main/TPS/TP01/Star%20Wars/Prompt%20Original)
 
-- Codigo hecho con el prompt mejorado -> [Ver] ()
+- Codigo hecho con el prompt mejorado -> [Ver](https://github.com/foxygamer722/Generacion_T/tree/main/TPS/TP01/Star%20Wars/Prompt%20Mejorado)
 
 <br>
 
