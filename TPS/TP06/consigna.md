@@ -1,4 +1,4 @@
-# EstudIA – Organizador de Estudio con IA
+# EstudIA
  
 ## Problema
 
