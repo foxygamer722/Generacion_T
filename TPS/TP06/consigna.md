@@ -1,4 +1,4 @@
-# EstudIA
+# EstudIA - Organizador de estudio
  
 ## Problema
 
