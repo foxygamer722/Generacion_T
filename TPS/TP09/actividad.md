@@ -67,26 +67,24 @@ Los endpoints recibirían o devolverían datos en formato JSON. Por ejemplo, par
 
 ### 4- Proponer una arquitectura para el backend antes de escribir código y justificar brevemente por qué la elegiste.
 
-Elegiría una arquitectura por capas, usando Node.js y Express para crear la API.
+Elegi una arquitectura por capas, usando Node.js y Express para crear la API.
 
 - **Rutas:** Definen los endpoints y el método HTTP.
 - **Controladores:** Reciben la solicitud y devuelven la respuesta al frontend.
 - **Servicios:** Contienen la lógica de la aplicación, como calcular el progreso.
 - **Repositorio:** Se encarga de obtener y guardar los datos.
 
-La elegiría porque permite separar las responsabilidades y hace que el código sea más fácil de entender y modificar. Además, si en el futuro cambio el sistema de almacenamiento, podría modificar el repositorio sin tener que cambiar toda la lógica de la aplicación.
+La elegi porque permite separar las responsabilidades y hace que el código sea más fácil de entender y modificar. Además, si en el futuro cambio el sistema de almacenamiento, podría modificar el repositorio sin tener que cambiar toda la lógica de la aplicación.
 
 ### 5- Cuestionar al menos una decisión propuesta por la IA.
 
-Una decisión que cuestionaría es agregar un backend y una base de datos desde el principio. Para mi proyecto, la aplicación está pensada para un estudiante individual y tiene que funcionar sin conexión. Por eso, usar `localStorage` es más simple y cumple con lo que necesito.
+Una decisión es agregar un backend y una base de datos desde el principio. Para mi proyecto, la aplicación está pensada para un estudiante individual y tiene que funcionar sin conexión. Por eso, usar `localStorage` es más simple y cumple con lo que necesito.
 
 Un backend podría ser útil si más adelante quisiera acceder a mis materias desde distintos dispositivos o compartir información. Pero por ahora agregaría complejidad y haría que la aplicación dependiera de un servidor, así que mantendría la versión actual sin backend.
 
 ### 6- Implementar una funcionalidad del backend respetando la arquitectura diseñada.
 
-Como ejemplo, implementaría el endpoint que devuelve el progreso de una materia. El cálculo es el mismo que utiliza mi aplicación: se cuentan los temas dominados y se divide esa cantidad por el total de temas.
-
-Ejemplo de implementación con Node.js y Express:
+Implemente el endpoint que devuelve el progreso de una materia. El cálculo es el mismo que utiliza mi aplicación: se cuentan los temas dominados y se divide esa cantidad por el total de temas.
 
 ```js
 function calcularProgresoMateria(materia) {
@@ -125,6 +123,6 @@ function obtenerProgreso(req, res) {
 app.get("/api/materias/:id/progreso", obtenerProgreso);
 ```
 
-En este ejemplo, `materias` representa los datos que el repositorio le entrega al controlador y `app` es la aplicación de Express. En una implementación completa, esos datos se obtendrían desde el repositorio en lugar de estar guardados directamente en el archivo.
+`materias` representa los datos que el repositorio le entrega al controlador y `app` es la aplicación de Express. 
 
 De esta manera, el backend calcula el progreso y devuelve el resultado en JSON, mientras que el frontend se encarga de mostrarlo en la pantalla.
