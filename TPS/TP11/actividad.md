@@ -63,5 +63,3 @@ Para realizar la comparación, se debe ejecutar el revisor original y el revisor
 |---|---|
 | Antes | El revisor original puede señalar riesgos, pero no exige ubicación exacta, escenario ni evidencia para cada hallazgo. |
 | Después | El revisor mejorado debe informar gravedad, ubicación, situación concreta, impacto y evidencia; además, distingue riesgos confirmados de posibles y puede indicar que no encontró problemas. |
-
-**Evidencia pendiente de ejecución:** no pude invocar el subagente de tu entorno desde este chat, por lo que no puedo afirmar que corrí ambas versiones ni inventar resultados. Para completar esta parte, pegá las dos salidas reales del revisor sobre el mismo archivo. Si el resultado no cambia, también sirve: anotá que el revisor no detectó diferencias en ese caso de prueba.
