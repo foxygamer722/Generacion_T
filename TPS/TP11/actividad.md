@@ -57,8 +57,6 @@ Si no hay hallazgos, respondé brevemente: “No encontré problemas concretos d
 
 ## 3. Evidencia antes y después
 
-Para realizar la comparación, se debe ejecutar el revisor original y el revisor mejorado sobre el mismo archivo, sin modificar ese archivo entre las dos revisiones.
-
 | Revisión | Resultado que se compara |
 |---|---|
 | Antes | El revisor original puede señalar riesgos, pero no exige ubicación exacta, escenario ni evidencia para cada hallazgo. |
