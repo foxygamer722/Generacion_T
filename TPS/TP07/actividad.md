@@ -4,8 +4,6 @@
 
 **EstudIA — Organizador de Estudio**, desarrollado con HTML, CSS y JavaScript. Para esta actividad se trabajó sobre `script.js`, dentro del módulo `AlmacenEstudio`.
 
-> No se encontraron archivos `SPEC.md` ni `AGENTS.md` entre los archivos disponibles del proyecto. Por eso, el análisis se realizó sobre el código fuente existente y su comportamiento.
-
 ## 1. Análisis del código
 
 En la funcionalidad de filtrado se detectaron estas oportunidades:
@@ -76,12 +74,10 @@ function temaCoincideConFiltros(tema, query, estado, soloFavoritos) {
 Ahora ambos métodos reutilizan la función:
 
 ```javascript
-// Dentro de filtrarDashboard()
 const temasCoincidentes = materia.temas.filter(tema =>
   temaCoincideConFiltros(tema, query, estado, soloFavoritos)
 );
 
-// filtrarTemasDeMateria()
 function filtrarTemasDeMateria(materia, {
   texto = "", estado = "todos", soloFavoritos = false
 }) {
