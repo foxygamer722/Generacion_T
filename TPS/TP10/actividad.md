@@ -2,21 +2,7 @@
 
 **Módulo 3 · Trabajo individual**
 
-## 1. Analicé el código e identifiqué tres problemas
-
-### 1. Se traen todos los tickets en cada consulta
-
-La función ejecuta `SELECT * FROM Tickets FOR JSON PATH` cada vez que se hace un `GET /tickets`. Actualmente hay solo 5 tickets, pero cuando el sistema tenga cientos o miles, va a traer todos los registros aunque el usuario necesite ver una parte. Esto puede hacer que la respuesta tarde más y que se consuman más recursos, especialmente si se consulta muchas veces.
-
-### 2. Se ejecuta un proceso externo cada vez que se consulta
-
-Para consultar SQL Server, la función ejecuta `sqlcmd` mediante `execFile`. Aunque ahora funciona, cada pedido HTTP inicia un proceso externo nuevo. Si varias personas consultan los tickets al mismo tiempo o el sistema recibe muchas solicitudes, se van a crear muchos procesos y puede aumentar el tiempo de respuesta.
-
-### 3. Los datos se devuelven sin un tipo específico ni validación de cada ticket
-
-La función devuelve `unknown[]` y solamente verifica que el resultado de SQL Server sea un array. No comprueba que cada elemento tenga los campos esperados de un ticket. Por ejemplo, si la consulta devuelve un ticket sin título o con un dato incorrecto, la función lo acepta y el problema puede aparecer después, cuando el frontend intente mostrarlo o editarlo.
-
-## 2. Prompt que le escribiría a la IA
+## 1. Prompt que le escribiría a la IA
 
 Necesito mejorar la función `queryTicketRows()` del repositorio del backend. La función se ejecuta en cada `GET /tickets` y consulta los tickets de SQL Server usando `sqlcmd`. Actualmente la base tiene 5 tickets, la aplicación funciona y hay una sola persona usando el sistema, pero más adelante se van a poder crear y editar tickets desde un formulario.
 
@@ -28,7 +14,7 @@ No cambies la configuración de conexión que se obtiene desde las variables de 
 
 Antes de escribir el código, explicá brevemente qué cambios harías y por qué. Después mostrá cómo quedaría la función y qué habría que modificar en el código que la utiliza, si corresponde.
 
-## 3. Justificación del prompt
+## 2. Justificación del prompt
 
 Escribí el contexto de la función y expliqué cómo se usa, porque la IA necesita saber que se ejecuta en cada `GET /tickets` y que actualmente la aplicación funciona con pocos datos. También agregué que más adelante se van a crear y editar tickets, ya que eso puede cambiar la forma en que conviene organizar la consulta.
 
